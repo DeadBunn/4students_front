@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
 
@@ -7,6 +7,8 @@ import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
 const Auth =() =>{
     const location = useLocation();
     const isLogin = location.pathname === LOGIN_ROUTE
+    const [emailUser,Setemail]=useState('')
+    const [password,SetPassword]=useState('')
     
     return(
         //style = {{background:'rgba(201, 228, 202, 1)' ,height: 750}}
@@ -30,10 +32,14 @@ const Auth =() =>{
                         <input className="emailBox"
                         type="email"
                         placeholder="Введите ваш email..."
+                        value={emailUser}
+                        onChange={(e)=>Setemail(e.target.value)}
                         />
                         <input className="emailBox"
                         type="password"
                         placeholder="Введите ваш пароль..."
+                        value={password}
+                        onChange={(e)=>SetPassword(e.target.value)}
                         />
                         <button className="authButton">
                             <div className="buttonWord">{isLogin ? 'Войти' : 'Зарегистрироваться'}</div>
