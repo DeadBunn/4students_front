@@ -3,6 +3,7 @@ import { NavLink, useLocation,useHistory } from "react-router-dom";
 import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
 import {login, registration} from "../http/userAPI";
 import {Context} from "../index";
+import axios from "axios";
 
 
 const Auth =() =>{
@@ -14,24 +15,24 @@ const Auth =() =>{
     const history = useHistory()
 
     const click=async()=>{
-        try {
-            let data;
-            if (isLogin) {
-                data = await login(email, password);
-            } else {
-                data = await registration(email, password);
+          try {
+               let data;
+              if (isLogin) {
+                   data = await login(email, password);
+               } else {
+                   data = await registration(email,password);
+               }
+               user.setUser(user)
+               user.setIsAuth(true)
+               history.push(MAIN_ROUTE)
+            } catch (e) {
+                alert(e.message)
             }
-            user.setUser(user)
-            user.setIsAuth(true)
-            history.push(MAIN_ROUTE)
-         } catch (e) {
-        //     alert(e.response.data.message)
-         }
 
     }
 
     return(
-        //style = {{background:'rgba(201, 228, 202, 1)' ,height: 750}}
+        
         <div className="validLogin" >
             <div>
                 <span className="firstPartOfName">4S</span><span className="secondPartOfName">tudents</span>
