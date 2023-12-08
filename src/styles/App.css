@@ -119,3 +119,233 @@
     height: 48.333px;
     flex-shrink: 2;
 }
+
+.Navbar{
+    display:flex;
+    background-color: #87bba2;
+    border-radius: 0px 0px 15px 15px;
+    box-shadow: 5px 5px 0px #00000040;
+    height: 65px;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.ButtonNavbar{
+    background-color: #55828b;
+    border-radius: 15px;
+    box-shadow: 5px 5px 0px #00000040;
+    height:30px;
+    width:100px;
+    color: #f5f5f5;
+    font-family: "Roboto Mono-Bold", Helvetica;
+    font-size: 15px;
+    margin: 10px;
+}
+
+.itemBox{
+    height:300px;
+    width:300px;
+    background-color: #e9f5db66;
+    padding:10px;
+    margin:10px;
+    border-radius: 15px;
+    cursor:pointer;
+}
+
+.ItemList{
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.TypeItem{
+    display:flex;
+    background-color: #9d2eb866;
+    border-radius: 15px;
+    box-shadow: 5px 5px 0px #00000040;
+    align-items: center;
+    justify-content: center;
+    height:42px;
+    width:100px;
+    color: #000000b2;
+    font-family: "Roboto Mono-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    margin:7px;
+}
+
+.Title{
+    height: 55px;
+    width: 231px;
+    color: #1c4347;
+    font-family: "Roboto Mono-Bold", Helvetica;
+    font-size: 24px;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Добавляем многоточие */
+    margin-top:20px;
+    margin-left:20px;
+}
+
+
+.Description{
+    height: 130px;
+    width: 278px;
+    color: #3b6064;
+    font-family: "Roboto Mono-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    margin-left:20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+    
+.Author{
+    
+    height: 24px;
+    width: 278px;
+    color: #3b6064;
+    font-family: "Roboto Mono-Bold", Helvetica;
+    font-size: 18px;
+    font-weight: 700;
+    margin-left: 20px;
+    
+}
+
+.star{
+    height: 20px;
+    width: 20px;
+   
+}
+
+.SearchTitle{
+    margin:20px;
+    padding:0 20px;
+    height: 65px;
+    width: 700px;
+    background-color: #e9f5db;
+    border-radius: 15px;
+    box-shadow: 5px 5px 0px #00000040;
+    display:inline-flex;
+    justify-content: space-between;
+}
+.SearchTitleTxt{
+    border:none;
+    color: #3b6064;
+    font-family: "Roboto Mono-Bold", Helvetica;
+    font-size: 24px;
+    font-weight: 700;
+    background-color: #e9f5db;
+    width:700px;
+    padding-right:10px;
+    outline:none;
+}
+
+.SearchTitleBtn{
+    border:none;
+    background-color:#e9f5db;
+}
+
+.SearchTitleImg{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    background-color:#e9f5db;
+    padding-right:15px ;
+}
+
+.SelectField{
+height: 65px;
+width: 350px;
+background-color: #e9f5db;
+border-radius: 15px;
+box-shadow: 5px 5px 0px #00000040;
+margin:20px;
+display:inline-flex;
+color: #3b6064;
+font-family: "Roboto Mono-Bold", Helvetica;
+font-size: 24px;
+font-weight: 700;
+border:none;
+padding: 0 20px;
+cursor:pointer;
+}
+
+.ProfileBtn{
+    height: 40px;
+    width: 40px;
+    border:none;
+    background: none;
+    cursor:pointer;
+    padding:0 20px;
+}
+
+.AddOrderBtn{
+    height: 30px;
+    width: 30px;
+    border:none;
+    background: none;
+    cursor:pointer;
+}
+
+.ProfileIcon{
+    height: 40px;
+    width: 40px;
+}
+
+.AddOrderIcon{
+    height: 30px;
+    width: 30px;
+}
+
+.NavbarAuth{
+    display:flex;
+    align-items: center;
+    padding:100px;
+    margin:20px;
+}
+
+.InputOrderTitle{
+    
+background-color: #f5f5f5;
+border-radius: 15px;
+box-shadow: 5px 5px 0px #00000040;
+height: 40px;
+width: 650px;
+color: #364958bf;
+font-family: "Roboto Mono-Bold", Helvetica;
+font-size: 18px;
+font-weight: 700;
+padding:10px;
+margin:10px;
+
+
+}
+.InputOrderDescription{
+  
+background-color: #f5f5f5;
+border-radius: 15px;
+box-shadow: 5px 5px 0px #00000040;
+height: 310px;
+width: 650px;
+color: #364958bf;
+font-family: "Roboto Mono-Regular", Helvetica;
+font-size: 18px;
+font-weight: 400;
+margin:10px;
+padding:10px;
+
+}
+
+.ButtonSendOrder{
+    height: 40px;
+    width: 40px;
+    border:none;
+    background-color: #e9f5db;
+    cursor:pointer;
+}
+.SendOrderIcon{
+    height: 40px;
+    width: 40px;
+}

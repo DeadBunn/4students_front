@@ -3,7 +3,7 @@ import { NavLink, useLocation,useHistory } from "react-router-dom";
 import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from "../utils/consts";
 import {login, registration} from "../http/userAPI";
 import {Context} from "../index";
-import axios from "axios";
+
 
 
 const Auth =() =>{
@@ -13,6 +13,7 @@ const Auth =() =>{
     const [password,SetPassword]=useState('')
     const {user} = useContext(Context)
     const history = useHistory()
+    const [login,Setlogin] = useState('')
 
     const click=async()=>{
           try {
@@ -20,7 +21,7 @@ const Auth =() =>{
               if (isLogin) {
                    data = await login(email, password);
                } else {
-                   data = await registration(email,password);
+                   data = await registration(email,login,password);
                }
                user.setUser(user)
                user.setIsAuth(true)
@@ -56,6 +57,16 @@ const Auth =() =>{
                         value={email}
                         onChange={(e)=>Setemail(e.target.value)}
                         />
+                        {isLogin?
+                        <></>
+                        :
+                        <input className="emailBox"
+                        type="text"
+                        placeholder="Введите логин"
+                        value={login}
+                        onChange={(e)=>Setlogin(e.target.value)}
+                        />
+                        }
                         <input className="emailBox"
                         type="password"
                         placeholder="Введите ваш пароль..."
