@@ -8,6 +8,7 @@ export const Context = createContext(null)
 ReactDOM.render(
     <Context.Provider value={{
         user: new UserStore(),
+        order: new OrderStore(),
     }}>
         <App />
     </Context.Provider>,

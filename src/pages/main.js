@@ -1,9 +1,15 @@
-import React from "react";
+import React , {useContext, useEffect} from "react";
 import NavigationBar from "../components/NavigationBar";
 import ItemList from "../components/ItemList";
 import Image from "../images/Vector.png"
+import {observer} from "mobx-react-lite";
+import {Context} from "../index";
+import {fetchBrands, fetchDevices, fetchTypes} from "../http/deviceAPI";
 
-const Main= () =>{
+const Main= observer(() =>{
+    
+    const {device} = useContext(Context)
+
     
     return(
         <div>
@@ -33,6 +39,6 @@ const Main= () =>{
         
         
     );
-};
+});
 
 export default Main;

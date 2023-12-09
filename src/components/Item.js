@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "../images/image.png"
 
-const Item =()=>{
+const Item =({order})=>{ // поля order вставить в нужнеы места и отрисуется все
+    
 
     return(
         <div className="itemBox">
