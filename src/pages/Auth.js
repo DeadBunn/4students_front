@@ -13,7 +13,7 @@ const Auth =() =>{
     const [password,SetPassword]=useState('')
     const {user} = useContext(Context)
     const history = useHistory()
-    const [login,Setlogin] = useState('')
+    const [userLogin,SetuserLogin] = useState('')
 
     const click=async()=>{
           try {
@@ -21,7 +21,7 @@ const Auth =() =>{
               if (isLogin) {
                    data = await login(email, password);
                } else {
-                   data = await registration(email,login,password);
+                   data = await registration(email,userLogin,password);
                }
                user.setUser(user)
                user.setIsAuth(true)
@@ -63,8 +63,8 @@ const Auth =() =>{
                         <input className="emailBox"
                         type="text"
                         placeholder="Введите логин"
-                        value={login}
-                        onChange={(e)=>Setlogin(e.target.value)}
+                        value={userLogin}
+                        onChange={(e)=>SetuserLogin(e.target.value)}
                         />
                         }
                         <input className="emailBox"

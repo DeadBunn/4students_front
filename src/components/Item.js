@@ -1,30 +1,37 @@
 import React from "react";
 import Image from "../images/image.png"
 
-const Item =({order})=>{ // поля order вставить в нужнеы места и отрисуется все
-    
+const Item = ({ order }) => {
+    // Extracting relevant fields from the order object
+    const { type, title, description, user, tags } = order;
+    const colors = ['#2eb87e66', '#ff5733', '#5c33ff', '#ffaa00']; // Add more colors as needed
 
-    return(
+
+    return (
         <div className="itemBox">
-            
-            <div style={{display:"flex",flexwrap: "wrap",height:"42px"}}>
-                <div className="TypeItem" >course</div>
-                <div className="TypeItem"style={{background:"#2eb87e66"}}>subject</div>
+            <div style={{ display: "flex", flexWrap: "wrap", height: "42px" }}>
+                {tags &&
+                    tags.length > 0 &&
+                    tags.slice(0,2).map((tag, index) => (
+                        <div
+                            key={index}
+                            className="TypeItem"
+                            style={{ background: colors[index % colors.length] }}
+                        >
+                            {tag.name}
+                        </div>
+                    ))}
             </div>
-            <div className="Title" >
-                Скиньте лабу по ТОЭ тема МКТ киньте лабу по ТОЭ тема МКТ
-            </div>
-            <div className="Description">
-                Согласно новым исследованиям, проведенным ведущими учеными, люди на самом деле видят не глазами, а волосами. Эта удивитель  Согласно новым исследованиям, проведенным ведущими учеными, люди на самом деле видят не глазами, а волосами. Эта удивитель 
-            </div>
+            <div className="Title">{title}</div>
+            <div className="Description">{description}</div>
             <div className="Author">
-                <span>@AntonioSanDiego 5</span> 
-                
-                <img className="star" src={Image} alt="Image"  /> 
+                {/* Assuming 'user' is an object with 'login' and 'rating' properties */}
+                <span>@{user.login} {user.rating}</span>
+                {/* You may add more details from the 'user' object as needed */}
+                <img className="star" src={Image} alt="Image" />
             </div>
         </div>
-    )
-
-}
+    );
+};
 
 export default Item;

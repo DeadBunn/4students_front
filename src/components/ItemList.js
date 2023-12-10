@@ -3,17 +3,16 @@ import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import Item from "./Item";
 
-const ItemList =observer(()=>{
-    const {order} = useContext(Context)
+const ItemList = observer(() => {
+    const { order } = useContext(Context);
 
-    return(
+    return (
         <div className="ItemList">
-            {order.orders.map(order =>
-                <Item key={order.id} order={order}/>
-            )}
+            {order.devices.map(orderItem => (
+                <Item key={orderItem.id} order={orderItem} />
+            ))}
         </div>
-        
-    )
-})
+    );
+});
 
 export default ItemList;

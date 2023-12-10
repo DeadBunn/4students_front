@@ -7,15 +7,23 @@ import {Context} from "../index";
 import {fetchBrands, fetchOrders, fetchTypes} from "../http/OrderApi";
 
 const Main= observer(() =>{
-    
-    const {order} = useContext(Context)
+
+    const { order } = useContext(Context);
+
     useEffect(() => {
-        fetchDevices(/*прописать что нужно передать в функцию*/).then(data => {
-            device.setDevices(/*прописать что нужно передать в функцию*/)
-            
-        })
-    })
-    
+        const fetchData = async () => {
+            try {
+                const orders = await fetchOrders();
+                order.setDevices(orders);
+            } catch (error) {
+                console.error('Ошибка получения заказов:', error);
+            }
+        };
+
+        fetchData()
+    }, [order]);
+
+
     return(
         <div>
             <NavigationBar/>
