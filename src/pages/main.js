@@ -4,12 +4,17 @@ import ItemList from "../components/ItemList";
 import Image from "../images/Vector.png"
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
-import {fetchBrands, fetchDevices, fetchTypes} from "../http/deviceAPI";
+import {fetchBrands, fetchOrders, fetchTypes} from "../http/OrderApi";
 
 const Main= observer(() =>{
     
-    const {device} = useContext(Context)
-
+    const {order} = useContext(Context)
+    useEffect(() => {
+        fetchDevices(/*прописать что нужно передать в функцию*/).then(data => {
+            device.setDevices(/*прописать что нужно передать в функцию*/)
+            
+        })
+    })
     
     return(
         <div>

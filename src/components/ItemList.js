@@ -4,12 +4,12 @@ import {Context} from "../index";
 import Item from "./Item";
 
 const ItemList =observer(()=>{
-    const {Order} = useContext(Context)
+    const {order} = useContext(Context)
 
     return(
         <div className="ItemList">
-            {device.devices.map(device =>
-                <Item key={device.id} order={order}/>
+            {order.orders.map(order =>
+                <Item key={order.id} order={order}/>
             )}
         </div>
         
