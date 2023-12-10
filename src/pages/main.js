@@ -27,6 +27,11 @@ const Main = observer(() => {
         handleSearch();
     }, []); // Empty dependency array means it runs only once on mount
 
+    const handleSearchButtonClick = (event) => {
+        event.preventDefault()
+        handleSearch();
+    };
+
     return (
         <div>
             <NavigationBar />
@@ -39,7 +44,7 @@ const Main = observer(() => {
                         value={searchTitle}
                         onChange={(e) => setSearchTitle(e.target.value)}
                     />
-                    <button className="SearchTitleBtn" onClick={handleSearch}>
+                    <button className="SearchTitleBtn" onClick={handleSearchButtonClick}>
                         <img alt="img" className="SearchTitleImg" src={Image} />
                     </button>
                 </form>
@@ -50,8 +55,8 @@ const Main = observer(() => {
                         value={searchType}
                         onChange={(e) => setSearchType(e.target.value)}
                     >
-                        <option value="order">Ищу заказ</option>
-                        <option value="Service">Ищу услугу</option>
+                        <option value="ORDER">Ищу заказ</option>
+                        <option value="SERVICE">Ищу услугу</option>
                     </select>
                 </form>
             </div>
