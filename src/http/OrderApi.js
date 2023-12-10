@@ -10,8 +10,21 @@ export const fetchTypes = async () => {
     const {data} = await $host.get('api/type') //вставить айпишник 
     return data
 }
+
 export const createOrder = async (orderBody) => {
-    const { data } = await $authHost.post('api/ads', orderBody);
+    const token = localStorage.getItem("token")
+
+    const headers = {
+        Authorization: `Bearer ${token}`
+    };
+
+    console.log("При отправке запроса: " + orderBody.title)
+
+    const formData = new FormData()
+    const orderBodyString = JSON.stringify(orderBody)
+    formData.append("orderBody", orderBodyString)
+
+    const { data } = await $authHost.post('api/ads', formData, { headers });
     return data;
 };
 // Аналогично
