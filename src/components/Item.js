@@ -5,6 +5,7 @@ import Modal from "./Modal";
 import "../styles/Modal.css"
 import {approveAd, declineAd, requestToAd} from "../http/OrderApi";
 import {Context} from "../index";
+import Close from "../images/BtnClose.png"
 
 const Item = ({order}) => {
 
@@ -50,6 +51,12 @@ const Item = ({order}) => {
             <img className="star" src={Image} alt="Image"/>
         </div>
         <Modal active={modalActive} setActive={setModalActive}>
+            <img
+                src={Close}
+                alt="Close"
+                className="CloseButton"
+                onClick={() => setModalActive(false)}
+            />
             <div style={{display: "flex", flexWrap: "wrap", height: "42px"}}>
                 {tags &&
                     tags.length > 0 &&
@@ -77,9 +84,10 @@ const Item = ({order}) => {
             <div className="DescriptionModal" style={{marginTop: "10px", display: "flex"}}>
                 {description}
             </div>
-            {(isModerated && userId !== user.id.toString()) && <button className="ButtonModal" onClick={() => handleRequest(id)}>
-                Откликнуться
-            </button>}
+            {(isModerated && userId !== user.id.toString()) &&
+                <button className="ButtonModal" onClick={() => handleRequest(id)}>
+                    Откликнуться
+                </button>}
             {userRole !== 'USER' && !isModerated &&
                 <button className="ButtonModal GreenButton" onClick={() => handleApproveRequest(id)}
                         style={{marginRight: '20px'}}>
