@@ -1,5 +1,6 @@
 import {$authHost, $host} from "./index";
 import jwt_decode from "jwt-decode";
+import async from "async";
 
 // export const createType = async () => {//вставить что передаем
 //     const {data} = await $authHost.post('api/type', order)//вставить айпишник , поменять order на то что перердаем
@@ -25,6 +26,18 @@ export const createOrder = async (orderBody) => {
     formData.append("orderBody", orderBodyString)
 
     const { data } = await $authHost.post('api/ads', formData, { headers });
+    return data;
+};
+
+export const requestToAd = async (adId) => {
+    const token = localStorage.getItem("token")
+
+    const headers = {
+        Authorization: `Bearer ${token}`
+    };
+
+
+    const { data } = await $authHost.post('api/ads/request/' + adId, { headers });
     return data;
 };
 // Аналогично
