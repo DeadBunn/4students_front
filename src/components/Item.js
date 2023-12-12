@@ -10,6 +10,7 @@ const Item = ({order}) => {
     const {id, type, title, description, user, tags, price} = order;
     const colors = ['#2eb87e66', '#ff5733', '#5c33ff', '#ffaa00']; // Add more colors as needed
     const [modalActive, setModalActive] = useState(false)
+    const [userId, setUserId] = useState(localStorage.getItem('userId'))
 
     const handleRequest = (adId) => {
         requestToAd(adId);
@@ -65,10 +66,9 @@ const Item = ({order}) => {
             <div className="DescriptionModal" style={{marginTop: "10px", display: "flex"}}>
                 {description}
             </div>
-            <button className="ButtonModal" onClick={
-                () => handleRequest(id)
-            }>Откликнуться
-            </button>
+            {(userId !== user.id.toString()) && <button className="ButtonModal" onClick={() => handleRequest(id)}>
+                Откликнуться
+            </button>}
         </Modal>
     </div>;
 };
