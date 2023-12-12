@@ -72,3 +72,13 @@
     cursor:pointer;
     text-align: center;
 }
+
+.ButtonModal.GreenButton {
+    background-color: #2eb87e66;
+    /* Add any other styling specific to the green button */
+}
+
+.ButtonModal.RedButton {
+    background-color: #ff5733;
+    /* Add any other styling specific to the red button */
+}

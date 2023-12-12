@@ -1,6 +1,4 @@
 import {$authHost, $host} from "./index";
-import jwt_decode from "jwt-decode";
-import async from "async";
 
 // export const createType = async () => {//вставить что передаем
 //     const {data} = await $authHost.post('api/type', order)//вставить айпишник , поменять order на то что перердаем
@@ -25,7 +23,7 @@ export const createOrder = async (orderBody) => {
     const orderBodyString = JSON.stringify(orderBody)
     formData.append("orderBody", orderBodyString)
 
-    const { data } = await $authHost.post('api/ads', formData, { headers });
+    const {data} = await $authHost.post('api/ads', formData, {headers});
     return data;
 };
 
@@ -37,11 +35,11 @@ export const requestToAd = async (adId) => {
     };
 
 
-    const { data } = await $authHost.post('api/ads/request/' + adId, { headers });
+    const {data} = await $authHost.post('api/ads/request/' + adId, {headers});
     return data;
 };
 // Аналогично
-export const fetchOrders = async (filter) => {
+export const fetchAllOrders = async (filter) => {
     console.log("Filter Object:", filter);
     const config = {
         params:
@@ -51,13 +49,65 @@ export const fetchOrders = async (filter) => {
             }
     };
 
-    try{
-        const { data } = await $host.get('api/ads', config);
-        return data;
-    }
-    catch (error){
-        console.error("Ошибка ошибка ошибка:", error.response.data);
-        throw error;
-    }
+    const {data} = await $host.get('api/ads', config);
+    return data;
+};
 
+export const fetchMyOrders = async (filter) => {
+    const token = localStorage.getItem("token")
+
+    const config = {
+        params:
+            {
+                type: filter.type,
+                title: filter.title
+            },
+        headers:
+            {Authorization: `Bearer ${token}`}
+    };
+
+    const {data} = await $host.get('api/ads/my', config);
+    return data;
+};
+
+export const fetchOrdersToCheck = async (filter) => {
+    const token = localStorage.getItem("token")
+
+    const config = {
+        params:
+            {
+                type: filter.type,
+                title: filter.title
+            }
+        ,
+        headers:
+            {Authorization: `Bearer ${token}`}
+    };
+
+    const {data} = await $host.get('api/moderators/ads', config);
+    return data;
+};
+
+export const approveAd = async (adId) => {
+    const token = localStorage.getItem("token")
+
+    const headers = {
+        Authorization: `Bearer ${token}`
+    };
+
+    console.log(headers.Authorization)
+
+    const { data } = await $host.put('api/moderators/approve/' + adId, {}, { headers });
+    return data;
+};
+
+export const declineAd = async (adId) => {
+    const token = localStorage.getItem("token")
+
+    const headers = {
+        Authorization: `Bearer ${token}`
+    };
+
+    const { data } = await $host.delete('api/moderators/delete/' + adId, {}, { headers });
+    return data;
 };
