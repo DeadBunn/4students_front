@@ -88,6 +88,24 @@ export const fetchOrdersToCheck = async (filter) => {
     return data;
 };
 
+export const fetchRequestedOrders = async (filter) => {
+    const token = localStorage.getItem("token")
+
+    const config = {
+        params:
+            {
+                type: filter.type,
+                title: filter.title
+            }
+        ,
+        headers:
+            {Authorization: `Bearer ${token}`}
+    };
+
+    const {data} = await $host.get('api/ads/requested', config);
+    return data;
+};
+
 export const approveAd = async (adId) => {
     const token = localStorage.getItem("token")
 

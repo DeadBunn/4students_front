@@ -10,7 +10,7 @@ import {
     fetchAllOrders,
     fetchTypes,
     fetchOrdersToCheck,
-    fetchMyOrders
+    fetchMyOrders, fetchRequestedOrders
 } from "../http/OrderApi";
 
 const Main = observer(() => {
@@ -37,6 +37,9 @@ const Main = observer(() => {
             case 'mine':
                 fetchFunction = fetchMyOrders;
                 break;
+            case 'requested':
+                fetchFunction = fetchRequestedOrders;
+                break;
             case 'all':
             default:
                 fetchFunction = fetchAllOrders;
@@ -49,9 +52,8 @@ const Main = observer(() => {
     };
 
     useEffect(() => {
-        // Assuming you want to load orders on the initial render
         handleSearch();
-    }, []); // Empty dependency array means it runs only once on mount
+    }, []);
 
     const handleSearchButtonClick = (event) => {
         event.preventDefault()
@@ -79,11 +81,13 @@ const Main = observer(() => {
                         className="SelectField"
                         size="1"
                         value={searchType}
-                        onChange={(e) => setSearchType(e.target.value)}
+                        onChange={(e) => {
+                            setSearchType(e.target.value)
+                        }}
                     >
                         <option value=''>Любой</option>
-                        <option value="ORDER">Ищу заказ</option>
-                        <option value="SERVICE">Ищу услугу</option>
+                        <option value="ORDER">Заказ</option>
+                        <option value="SERVICE">Услуга</option>
                     </select>
                 </form>
                 <form>
@@ -91,10 +95,13 @@ const Main = observer(() => {
                         className="SelectField"
                         size="1"
                         value={pageType}
-                        onChange={(e) => setPageType(e.target.value)}
+                        onChange={(e) => {
+                            setPageType(e.target.value)
+                        }}
                     >
                         <option value="all">Все объявления</option>
                         <option value="mine">Мои объявления</option>
+                        <option value="requested">Отклики</option>
                         {userRole !== 'USER' && <option value="to_check">Непроверенные</option>}
                     </select>
                 </form>
