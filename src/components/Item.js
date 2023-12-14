@@ -3,14 +3,14 @@ import Image from "../images/image.png"
 import Coin from "../images/coin.png"
 import Modal from "./Modal";
 import "../styles/Modal.css"
-import {approveAd, declineAd, requestToAd} from "../http/OrderApi";
+import {approveAd, declineAd, finishExecution, requestToAd} from "../http/OrderApi";
 import {Context} from "../index";
 import Close from "../images/BtnClose.png"
 import Person from "./Person";
 
 const Item = ({order, pageType}) => {
 
-    const {id, type, title, description, user, tags, price, isModerated} = order;
+    const {id, type, title, description, user, tags, price, isModerated, candidates, executor, isFinished} = order;
     const {userRole} = useContext(Context)
 
     const colors = ['#2eb87e66', '#ff5733', '#5c33ff', '#ffaa00']; // Add more colors as needed
@@ -30,6 +30,10 @@ const Item = ({order, pageType}) => {
     const handleDeclineRequest = (adId) => {
         declineAd(adId)
         setModalActive(false)
+    }
+
+    const handleFinishExecution = () => {
+        finishExecution(id)
     }
 
     return <div className="itemBox" onClick={() => setModalActive(true)}>
@@ -99,9 +103,18 @@ const Item = ({order, pageType}) => {
                 <button className="ButtonModal RedButton" onClick={() => handleDeclineRequest(id)}>
                     Отклонить
                 </button>}
-            {pageType === 'mine' && <div>
+            {pageType === 'mine' && !executor && <div>
                 <div className="ModalResp">Отклики:</div>
-                <Person user={user} order={order}/>
+                {candidates.map(candidate => (
+                    <Person key={candidate.id} user={candidate} order={order}/>
+                ))}
+            </div>}
+            {pageType === 'mine' && executor && <div>
+                <div className="ModalResp">Исполнитель:</div>
+                <Person key={executor.id} user={executor} order={order} isExecutor={true}/>
+                {!isFinished && <button className="ButtonModal GreenButton" onClick={() => handleFinishExecution()}
+                                       style={{marginLeft: "50px", width: "150px"}}>Завершить
+                </button>}
             </div>}
         </Modal>
     </div>;
