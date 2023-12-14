@@ -5,6 +5,7 @@ import AddOrder from "../images/AddOrders.png"
 import Modal from "./Modal";
 import BtnSend from "../images/BtnSend.png"
 import {createOrder} from "../http/OrderApi";
+import Coin from "../images/coin.png"
 
 const NavigationBar = () => {
     const {user} = useContext(Context);
@@ -44,6 +45,10 @@ const NavigationBar = () => {
                         <div className="secondPartOfName"
                              style={{fontSize: "50px", color: "#364958bf", padding: "10px"}}>
                             Добавить заказ
+                            <div>
+                                <input className="InputModalCoin"></input>
+                                <img alt="icon" src={Coin} style={{flex: "0 0 auto"}}></img>
+                            </div>
                         </div>
                         <div>
                             <input

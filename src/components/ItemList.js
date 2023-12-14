@@ -3,13 +3,13 @@ import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import Item from "./Item";
 
-const ItemList = observer(() => {
+const ItemList = observer(({pageType}) => {
     const { order } = useContext(Context);
 
     return (
         <div className="ItemList">
             {order.devices.map(orderItem => (
-                <Item key={orderItem.id} order={orderItem} />
+                <Item key={orderItem.id} order={orderItem} pageType={pageType} />
             ))}
         </div>
     );

@@ -107,7 +107,7 @@ const Main = observer(() => {
                 </form>
             </div>
             <div style={{padding: '0px 50px'}}>
-                <ItemList/>
+                <ItemList pageType={pageType}/>
             </div>
         </div>
     );

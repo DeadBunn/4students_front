@@ -9,7 +9,8 @@ ReactDOM.render(
     <Context.Provider value={{
         user: new UserStore(),
         order: new OrderStore(),
-        userRole: localStorage.getItem('role')
+        userRole: localStorage.getItem('role'),
+        pageType: 'all'
     }}>
         <App />
     </Context.Provider>,
