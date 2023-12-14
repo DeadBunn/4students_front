@@ -2,11 +2,17 @@ import React from "react";
 import Icon from "../images/profile.png"
 import Star from "../images/image.png"
 import {finishExecution, setExecutor} from "../http/OrderApi";
+import {toast} from "react-toastify";
 
 const Person = ({user, order, isExecutor=false}) => {
 
-    const handleSetExecutor = (userId) => {
-        setExecutor(order.id, userId)
+    const handleSetExecutor = async (userId) => {
+        try {
+            const result = await setExecutor(order.id, userId)
+            toast.success('Вы успешно назначили исполнителя', {position: toast.POSITION.TOP_LEFT});
+        } catch (error) {
+            toast.error(error.response?.data || 'Произошла ошибка во время назначения исполнителя', {position: toast.POSITION.TOP_LEFT});
+        }
     }
 
     return (

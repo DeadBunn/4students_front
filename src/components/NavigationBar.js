@@ -9,6 +9,7 @@ import Coin from "../images/coin.png"
 import Exit from "../images/Exit.png"
 import {useHistory} from "react-router-dom";
 import { LOGIN_ROUTE } from "../utils/consts";
+import {toast} from "react-toastify";
 
 const NavigationBar = () => {
     const {user} = useContext(Context);
@@ -18,20 +19,26 @@ const NavigationBar = () => {
     const [price, setPrice] = useState(0)
     const history = useHistory()
 
-    const handleAddOrder = () => {
+    const handleAddOrder = async () => {
+            try {
+                const orderBody = {
+                    description: orderDescription,
+                    title: orderTitle,
+                    price: price,
+                    tags: [1],
+                    type: 'ORDER'
+                }
 
-        const orderBody = {
-            description: orderDescription,
-            title: orderTitle,
-            price: price,
-            tags: [1],
-            type: 'ORDER'
-        }
-
-        createOrder(orderBody)
+                const result = await createOrder(orderBody);
+                toast.success('Вы успешно создали объявление!', { position: toast.POSITION.TOP_LEFT });
+            }
+            catch(error){
+                const errorMessage = error.response?.data || 'Ошибка при создании объявления';
+                toast.error(errorMessage, { position: toast.POSITION.TOP_LEFT });
+            }
     };
 
-    const handleExit = () => {
+    const handleExit = async () => {
         user.setIsAuth(false)
         localStorage.clear()
         history.push(LOGIN_ROUTE)

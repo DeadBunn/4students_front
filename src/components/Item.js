@@ -7,6 +7,7 @@ import {approveAd, declineAd, finishExecution, requestToAd} from "../http/OrderA
 import {Context} from "../index";
 import Close from "../images/BtnClose.png"
 import Person from "./Person";
+import {toast} from "react-toastify";
 
 const Item = ({order, pageType}) => {
 
@@ -17,24 +18,49 @@ const Item = ({order, pageType}) => {
     const [modalActive, setModalActive] = useState(false)
     const [userId, setUserId] = useState(localStorage.getItem('userId'))
 
-    const handleRequest = (adId) => {
-        requestToAd(adId);
-        setModalActive(false)
-    }
+    const handleRequest = async (adId) => {
+        try {
+            await requestToAd(adId);
+            toast.success('Вы успешно откликнулись на объявление!', {position: toast.POSITION.TOP_LEFT});
+        } catch (error) {
+            const errorMessage = error.response?.data || 'Ошибка при отклике на объявление';
+            toast.error(errorMessage, {position: toast.POSITION.TOP_LEFT});
+        }
+        setModalActive(false);
+    };
 
-    const handleApproveRequest = (adId) => {
-        approveAd(adId)
-        setModalActive(false)
-    }
+    const handleApproveRequest = async (adId) => {
+        try {
+            await approveAd(adId);
+            toast.success('Объявление успешно одобрено', {position: toast.POSITION.TOP_LEFT});
+        } catch (error) {
+            const errorMessage = error.response?.data || 'Ошибка при одобрении объявления';
+            toast.error(errorMessage, {position: toast.POSITION.TOP_LEFT});
+        }
+        setModalActive(false);
+    };
 
-    const handleDeclineRequest = (adId) => {
-        declineAd(adId)
-        setModalActive(false)
-    }
+    const handleDeclineRequest = async (adId) => {
+        try {
+            await declineAd(adId);
+            toast.success('Объявление успешно отклонено', {position: toast.POSITION.TOP_LEFT});
+        } catch (error) {
+            const errorMessage = error.response?.data || 'Ошибка при отклонении объявления';
+            toast.error(errorMessage, {position: toast.POSITION.TOP_LEFT});
+        }
+        setModalActive(false);
+    };
 
-    const handleFinishExecution = () => {
-        finishExecution(id)
-    }
+    const handleFinishExecution = async () => {
+        try {
+            await finishExecution(id);
+            toast.success('Объявление успешно завершено', {position: toast.POSITION.TOP_LEFT});
+        } catch (error) {
+            const errorMessage = error.response?.data || 'Ошибка при завершении объявления';
+            toast.error(errorMessage, {position: toast.POSITION.TOP_LEFT});
+        }
+        setModalActive(false);
+    };
 
     return <div className="itemBox" onClick={() => setModalActive(true)}>
         <div style={{display: "flex", flexWrap: "wrap", height: "42px"}}>
@@ -90,9 +116,11 @@ const Item = ({order, pageType}) => {
                 {description}
             </div>
             {(pageType === 'all' && isModerated && userId !== user.id.toString()) &&
+
                 <button className="ButtonModal" onClick={() => handleRequest(id)}>
                     Откликнуться
-                </button>}
+                </button>
+            }
             {pageType === 'to_check' && userRole !== 'USER' && !isModerated &&
                 <button className="ButtonModal GreenButton" onClick={() => handleApproveRequest(id)}
                         style={{marginRight: '20px'}}>
@@ -113,9 +141,13 @@ const Item = ({order, pageType}) => {
                 <div className="ModalResp">Исполнитель:</div>
                 <Person key={executor.id} user={executor} order={order} isExecutor={true}/>
                 {!isFinished && <button className="ButtonModal GreenButton" onClick={() => handleFinishExecution()}
-                                       style={{marginLeft: "50px", width: "150px"}}>Завершить
+                                        style={{marginLeft: "50px", width: "150px"}}>Завершить
                 </button>}
             </div>}
+            {pageType === 'requested' && type === 'ORDER' && executor.id === userId &&
+                <div className="TitleModal" style={{width: "400px"}}>
+                    Поздравляем! Вы назначены исполнителем!
+                </div>}
         </Modal>
     </div>;
 };
