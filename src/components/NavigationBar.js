@@ -13,6 +13,7 @@ import {toast} from "react-toastify";
 
 const NavigationBar = () => {
     const {user} = useContext(Context);
+    const {order} = useContext(Context)
     const [modalActive, setModalActive] = useState(false);
     const [orderTitle, setOrderTitle] = useState('');
     const [orderDescription, setOrderDescription] = useState('');
@@ -31,6 +32,8 @@ const NavigationBar = () => {
 
                 const result = await createOrder(orderBody);
                 toast.success('Вы успешно создали объявление!', { position: toast.POSITION.TOP_LEFT });
+                const updatedDevices = order.devices.add(result)
+                order.setDevices(updatedDevices)
             }
             catch(error){
                 const errorMessage = error.response?.data || 'Ошибка при создании объявления';
@@ -47,13 +50,16 @@ const NavigationBar = () => {
     const handlePriceChange = (event) => {
         setPrice(event.target.value);
     };
+
+    useEffect(() => {
+    }, [user.isAuth])
     return (
         <div className="Navbar">
             <div style={{padding: "50px"}}>
                 <span className="firstPartOfName" style={{fontSize: "35px"}}>4S</span><span className="secondPartOfName"
                                                                                             style={{fontSize: "35px"}}>tudents</span>
             </div>
-            {user.isAuth ?
+            {!user.isAuth ?
                 <div style={{padding: "20px"}}>
                     <button className="ButtonNavbar"> Вход</button>
                     <button className="ButtonNavbar"> Регистрация</button>

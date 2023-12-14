@@ -5,16 +5,14 @@ import Image from "../images/Vector.png"
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import {
-    createOrder,
-    fetchBrands,
     fetchAllOrders,
-    fetchTypes,
     fetchOrdersToCheck,
     fetchMyOrders, fetchRequestedOrders
 } from "../http/OrderApi";
 
 const Main = observer(() => {
     const { order } = useContext(Context);
+    const {user} = useContext(Context)
     const {userRole} = useContext(Context)
     const [searchTitle, setSearchTitle] = useState('');
     const [searchType, setSearchType] = useState('');
@@ -52,8 +50,11 @@ const Main = observer(() => {
     };
 
     useEffect(() => {
-        handleSearch();
-    }, []);
+    }, [order.devices])
+
+    useEffect(() => {
+        handleSearch()
+    }, [pageType, searchType, searchTitle])
 
     const handleSearchButtonClick = (event) => {
         event.preventDefault()

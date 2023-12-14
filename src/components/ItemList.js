@@ -9,7 +9,7 @@ const ItemList = observer(({pageType}) => {
     return (
         <div className="ItemList">
             {order.devices.map(orderItem => (
-                <Item key={orderItem.id} order={orderItem} pageType={pageType} />
+                <Item key={orderItem.id} orderItem={orderItem} pageType={pageType} />
             ))}
         </div>
     );

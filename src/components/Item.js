@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Image from "../images/image.png"
 import Coin from "../images/coin.png"
 import Modal from "./Modal";
@@ -9,12 +9,14 @@ import Close from "../images/BtnClose.png"
 import Person from "./Person";
 import {toast} from "react-toastify";
 
-const Item = ({order, pageType}) => {
+const Item = ({orderItem, pageType}) => {
 
-    const {id, type, title, description, user, tags, price, isModerated, candidates, executor, isFinished} = order;
+    const {id, type, title, description, user, tags, price, isModerated, candidates, executor, isFinished} = orderItem;
+    const { order } = useContext(Context);
     const {userRole} = useContext(Context)
 
-    const colors = ['#2eb87e66', '#ff5733', '#5c33ff', '#ffaa00']; // Add more colors as needed
+
+    const colors = ['#2eb87e66', '#ff5733', '#5c33ff', '#ffaa00'];
     const [modalActive, setModalActive] = useState(false)
     const [userId, setUserId] = useState(localStorage.getItem('userId'))
 
@@ -22,6 +24,8 @@ const Item = ({order, pageType}) => {
         try {
             await requestToAd(adId);
             toast.success('Вы успешно откликнулись на объявление!', {position: toast.POSITION.TOP_LEFT});
+            const updatedOrders = order.devices.filter((item) => item.id !== adId);
+            order.setDevices(updatedOrders)
         } catch (error) {
             const errorMessage = error.response?.data || 'Ошибка при отклике на объявление';
             toast.error(errorMessage, {position: toast.POSITION.TOP_LEFT});
@@ -33,6 +37,8 @@ const Item = ({order, pageType}) => {
         try {
             await approveAd(adId);
             toast.success('Объявление успешно одобрено', {position: toast.POSITION.TOP_LEFT});
+             const updatedOrders = order.devices.filter((item) => item.id !== adId);
+             order.setDevices(updatedOrders)
         } catch (error) {
             const errorMessage = error.response?.data || 'Ошибка при одобрении объявления';
             toast.error(errorMessage, {position: toast.POSITION.TOP_LEFT});
@@ -44,6 +50,8 @@ const Item = ({order, pageType}) => {
         try {
             await declineAd(adId);
             toast.success('Объявление успешно отклонено', {position: toast.POSITION.TOP_LEFT});
+             const updatedOrders = order.devices.filter((item) => item.id !== adId);
+             order.setDevices(updatedOrders)
         } catch (error) {
             const errorMessage = error.response?.data || 'Ошибка при отклонении объявления';
             toast.error(errorMessage, {position: toast.POSITION.TOP_LEFT});
@@ -54,7 +62,7 @@ const Item = ({order, pageType}) => {
     const handleFinishExecution = async () => {
         try {
             await finishExecution(id);
-            toast.success('Объявление успешно завершено', {position: toast.POSITION.TOP_LEFT});
+            toast.success('Объявление успешно завершено', {position: toast.POSITION.TOP_LEFT}); 
         } catch (error) {
             const errorMessage = error.response?.data || 'Ошибка при завершении объявления';
             toast.error(errorMessage, {position: toast.POSITION.TOP_LEFT});
@@ -134,17 +142,17 @@ const Item = ({order, pageType}) => {
             {pageType === 'mine' && !executor && <div>
                 <div className="ModalResp">Отклики:</div>
                 {candidates.map(candidate => (
-                    <Person key={candidate.id} user={candidate} order={order}/>
+                    <Person key={candidate.id} user={candidate} order={orderItem}/>
                 ))}
             </div>}
             {pageType === 'mine' && executor && <div>
                 <div className="ModalResp">Исполнитель:</div>
-                <Person key={executor.id} user={executor} order={order} isExecutor={true}/>
+                <Person key={executor.id} user={executor} order={orderItem} isExecutor={true}/>
                 {!isFinished && <button className="ButtonModal GreenButton" onClick={() => handleFinishExecution()}
                                         style={{marginLeft: "50px", width: "150px"}}>Завершить
                 </button>}
             </div>}
-            {pageType === 'requested' && type === 'ORDER' && executor.id === userId &&
+            {pageType === 'requested' && type === 'ORDER' && executor?.id === userId &&
                 <div className="TitleModal" style={{width: "400px"}}>
                     Поздравляем! Вы назначены исполнителем!
                 </div>}
