@@ -62,7 +62,7 @@ const Main = observer(() => {
 
     return (
         <div>
-            <NavigationBar />
+            <NavigationBar/>
             <div style={{display: 'flex', padding: '0px 50px'}}>
                 <form className="SearchTitle">
                     <input

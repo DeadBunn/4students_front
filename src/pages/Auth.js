@@ -81,7 +81,7 @@ const Auth =() =>{
                         </button>
                         {isLogin ?
                             <div className="helpWord">
-                            Нет аккаунта? <NavLink to={REGISTRATION_ROUTE}>Зарегестрируйся!</NavLink>
+                            Нет аккаунта? <NavLink to={REGISTRATION_ROUTE}>Зарегистрируйся!</NavLink>
                             </div>
                             :
                             <div className="helpWord">

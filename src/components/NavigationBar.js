@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Context} from "../index";
 import ProfileIcon from "../images/profile.png"
 import AddOrder from "../images/AddOrders.png"
@@ -6,24 +6,39 @@ import Modal from "./Modal";
 import BtnSend from "../images/BtnSend.png"
 import {createOrder} from "../http/OrderApi";
 import Coin from "../images/coin.png"
+import Exit from "../images/Exit.png"
+import {useHistory} from "react-router-dom";
+import { LOGIN_ROUTE } from "../utils/consts";
 
 const NavigationBar = () => {
     const {user} = useContext(Context);
     const [modalActive, setModalActive] = useState(false);
     const [orderTitle, setOrderTitle] = useState('');
     const [orderDescription, setOrderDescription] = useState('');
+    const [price, setPrice] = useState(0)
+    const history = useHistory()
 
     const handleAddOrder = () => {
 
         const orderBody = {
             description: orderDescription,
             title: orderTitle,
-            price: 0,
-            tags: [2,3],
+            price: price,
+            tags: [1],
             type: 'ORDER'
         }
 
         createOrder(orderBody)
+    };
+
+    const handleExit = () => {
+        user.setIsAuth(false)
+        localStorage.clear()
+        history.push(LOGIN_ROUTE)
+    }
+
+    const handlePriceChange = (event) => {
+        setPrice(event.target.value);
     };
     return (
         <div className="Navbar">
@@ -46,7 +61,7 @@ const NavigationBar = () => {
                              style={{fontSize: "50px", color: "#364958bf", padding: "10px"}}>
                             Добавить заказ
                             <div>
-                                <input className="InputModalCoin"></input>
+                                <input className="InputModalCoin" value={price} onChange={handlePriceChange}></input>
                                 <img alt="icon" src={Coin} style={{flex: "0 0 auto"}}></img>
                             </div>
                         </div>
@@ -77,6 +92,7 @@ const NavigationBar = () => {
                         </div>
                     </Modal>
                     <button className="ProfileBtn"><img className="ProfileIcon" alt="img" src={ProfileIcon}/></button>
+                    <button className="ProfileBtn" onClick={handleExit}><img className="ProfileIcon" alt="img" src={Exit} style={{ marginLeft: '10px' }}/></button>
 
                 </div>
             }

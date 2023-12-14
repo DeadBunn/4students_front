@@ -126,7 +126,7 @@ export const declineAd = async (adId) => {
         Authorization: `Bearer ${token}`
     };
 
-    const { data } = await $host.delete('api/moderators/delete/' + adId, {}, { headers });
+    const { data } = await $host.delete('api/moderators/delete/' + adId,  { headers });
     return data;
 };
 
