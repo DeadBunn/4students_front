@@ -237,7 +237,7 @@
     font-size: 24px;
     font-weight: 700;
     background-color: #e9f5db;
-    width:700px;
+    width:600px;
     padding-right:10px;
     outline:none;
 }
@@ -257,7 +257,7 @@
 
 .SelectField{
 height: 65px;
-width: 350px;
+width: 320px;
 background-color: #e9f5db;
 border-radius: 15px;
 box-shadow: 5px 5px 0px #00000040;
@@ -349,3 +349,18 @@ padding:10px;
     height: 40px;
     width: 40px;
 }
+
+ .WalletOrder{
+     color: #1c4347;
+     font-family: "Roboto-Bold", Helvetica;
+     font-size: 18px;
+     font-weight: 700;
+     line-height: normal;
+     text-align: right;
+     display: inline-block;
+     margin-left: 15px;
+ }
+
+ .CoinImg{
+     margin-top:10px;
+ }
