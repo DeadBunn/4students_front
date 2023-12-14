@@ -1,36 +1,65 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Context} from "../index";
 import ProfileIcon from "../images/profile.png"
 import AddOrder from "../images/AddOrders.png"
 import Modal from "./Modal";
 import BtnSend from "../images/BtnSend.png"
 import {createOrder} from "../http/OrderApi";
+import Coin from "../images/coin.png"
+import Exit from "../images/Exit.png"
+import {useHistory} from "react-router-dom";
+import { LOGIN_ROUTE } from "../utils/consts";
+import {toast} from "react-toastify";
 
 const NavigationBar = () => {
     const {user} = useContext(Context);
+    const {order} = useContext(Context)
     const [modalActive, setModalActive] = useState(false);
     const [orderTitle, setOrderTitle] = useState('');
     const [orderDescription, setOrderDescription] = useState('');
+    const [price, setPrice] = useState(0)
+    const history = useHistory()
 
-    const handleAddOrder = () => {
+    const handleAddOrder = async () => {
+            try {
+                const orderBody = {
+                    description: orderDescription,
+                    title: orderTitle,
+                    price: price,
+                    tags: [1],
+                    type: 'ORDER'
+                }
 
-        const orderBody = {
-            description: orderDescription,
-            title: orderTitle,
-            price: 0,
-            tags: [2,3],
-            type: 'ORDER'
-        }
-
-        createOrder(orderBody)
+                const result = await createOrder(orderBody);
+                toast.success('Вы успешно создали объявление!', { position: toast.POSITION.TOP_LEFT });
+                const updatedDevices = order.devices.add(result)
+                order.setDevices(updatedDevices)
+            }
+            catch(error){
+                const errorMessage = error.response?.data || 'Ошибка при создании объявления';
+                toast.error(errorMessage, { position: toast.POSITION.TOP_LEFT });
+            }
     };
+
+    const handleExit = async () => {
+        user.setIsAuth(false)
+        localStorage.clear()
+        history.push(LOGIN_ROUTE)
+    }
+
+    const handlePriceChange = (event) => {
+        setPrice(event.target.value);
+    };
+
+    useEffect(() => {
+    }, [user.isAuth])
     return (
         <div className="Navbar">
             <div style={{padding: "50px"}}>
                 <span className="firstPartOfName" style={{fontSize: "35px"}}>4S</span><span className="secondPartOfName"
                                                                                             style={{fontSize: "35px"}}>tudents</span>
             </div>
-            {user.isAuth ?
+            {!user.isAuth ?
                 <div style={{padding: "20px"}}>
                     <button className="ButtonNavbar"> Вход</button>
                     <button className="ButtonNavbar"> Регистрация</button>
@@ -44,6 +73,10 @@ const NavigationBar = () => {
                         <div className="secondPartOfName"
                              style={{fontSize: "50px", color: "#364958bf", padding: "10px"}}>
                             Добавить заказ
+                            <div>
+                                <input className="InputModalCoin" value={price} onChange={handlePriceChange}></input>
+                                <img alt="icon" src={Coin} style={{flex: "0 0 auto"}}></img>
+                            </div>
                         </div>
                         <div>
                             <input
@@ -72,6 +105,7 @@ const NavigationBar = () => {
                         </div>
                     </Modal>
                     <button className="ProfileBtn"><img className="ProfileIcon" alt="img" src={ProfileIcon}/></button>
+                    <button className="ProfileBtn" onClick={handleExit}><img className="ProfileIcon" alt="img" src={Exit} style={{ marginLeft: '10px' }}/></button>
 
                 </div>
             }

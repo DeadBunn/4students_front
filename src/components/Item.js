@@ -1,35 +1,74 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Image from "../images/image.png"
 import Coin from "../images/coin.png"
 import Modal from "./Modal";
 import "../styles/Modal.css"
-import {approveAd, declineAd, requestToAd} from "../http/OrderApi";
+import {approveAd, declineAd, finishExecution, requestToAd} from "../http/OrderApi";
 import {Context} from "../index";
 import Close from "../images/BtnClose.png"
+import Person from "./Person";
+import {toast} from "react-toastify";
 
-const Item = ({order}) => {
+const Item = ({orderItem, pageType}) => {
 
-    const {id, type, title, description, user, tags, price, isModerated} = order;
+    const {id, type, title, description, user, tags, price, isModerated, candidates, executor, isFinished} = orderItem;
+    const { order } = useContext(Context);
     const {userRole} = useContext(Context)
 
-    const colors = ['#2eb87e66', '#ff5733', '#5c33ff', '#ffaa00']; // Add more colors as needed
+
+    const colors = ['#2eb87e66', '#ff5733', '#5c33ff', '#ffaa00'];
     const [modalActive, setModalActive] = useState(false)
     const [userId, setUserId] = useState(localStorage.getItem('userId'))
 
-    const handleRequest = (adId) => {
-        requestToAd(adId);
-        setModalActive(false)
-    }
+    const handleRequest = async (adId) => {
+        try {
+            await requestToAd(adId);
+            toast.success('Вы успешно откликнулись на объявление!', {position: toast.POSITION.TOP_LEFT});
+            const updatedOrders = order.devices.filter((item) => item.id !== adId);
+            order.setDevices(updatedOrders)
+        } catch (error) {
+            const errorMessage = error.response?.data || 'Ошибка при отклике на объявление';
+            toast.error(errorMessage, {position: toast.POSITION.TOP_LEFT});
+        }
+        setModalActive(false);
+    };
 
-    const handleApproveRequest = (adId) => {
-        approveAd(adId)
-        setModalActive(false)
-    }
+    const handleApproveRequest = async (adId) => {
+        try {
+            await approveAd(adId);
+            toast.success('Объявление успешно одобрено', {position: toast.POSITION.TOP_LEFT});
+             const updatedOrders = order.devices.filter((item) => item.id !== adId);
+             order.setDevices(updatedOrders)
+        } catch (error) {
+            const errorMessage = error.response?.data || 'Ошибка при одобрении объявления';
+            toast.error(errorMessage, {position: toast.POSITION.TOP_LEFT});
+        }
+        setModalActive(false);
+    };
 
-    const handleDeclineRequest = (adId) => {
-        declineAd(adId)
-        setModalActive(false)
-    }
+    const handleDeclineRequest = async (adId) => {
+        try {
+            await declineAd(adId);
+            toast.success('Объявление успешно отклонено', {position: toast.POSITION.TOP_LEFT});
+             const updatedOrders = order.devices.filter((item) => item.id !== adId);
+             order.setDevices(updatedOrders)
+        } catch (error) {
+            const errorMessage = error.response?.data || 'Ошибка при отклонении объявления';
+            toast.error(errorMessage, {position: toast.POSITION.TOP_LEFT});
+        }
+        setModalActive(false);
+    };
+
+    const handleFinishExecution = async () => {
+        try {
+            await finishExecution(id);
+            toast.success('Объявление успешно завершено', {position: toast.POSITION.TOP_LEFT}); 
+        } catch (error) {
+            const errorMessage = error.response?.data || 'Ошибка при завершении объявления';
+            toast.error(errorMessage, {position: toast.POSITION.TOP_LEFT});
+        }
+        setModalActive(false);
+    };
 
     return <div className="itemBox" onClick={() => setModalActive(true)}>
         <div style={{display: "flex", flexWrap: "wrap", height: "42px"}}>
@@ -84,20 +123,39 @@ const Item = ({order}) => {
             <div className="DescriptionModal" style={{marginTop: "10px", display: "flex"}}>
                 {description}
             </div>
-            {(isModerated && userId !== user.id.toString()) &&
+            {(pageType === 'all' && isModerated && userId !== user.id.toString()) &&
+
                 <button className="ButtonModal" onClick={() => handleRequest(id)}>
                     Откликнуться
-                </button>}
-            {userRole !== 'USER' && !isModerated &&
+                </button>
+            }
+            {pageType === 'to_check' && userRole !== 'USER' && !isModerated &&
                 <button className="ButtonModal GreenButton" onClick={() => handleApproveRequest(id)}
                         style={{marginRight: '20px'}}>
                     Одобрить
                 </button>
             }
-            {userRole !== 'USER' && !isModerated &&
+            {pageType === 'to_check' && userRole !== 'USER' && !isModerated &&
                 <button className="ButtonModal RedButton" onClick={() => handleDeclineRequest(id)}>
                     Отклонить
                 </button>}
+            {pageType === 'mine' && !executor && <div>
+                <div className="ModalResp">Отклики:</div>
+                {candidates.map(candidate => (
+                    <Person key={candidate.id} user={candidate} order={orderItem}/>
+                ))}
+            </div>}
+            {pageType === 'mine' && executor && <div>
+                <div className="ModalResp">Исполнитель:</div>
+                <Person key={executor.id} user={executor} order={orderItem} isExecutor={true}/>
+                {!isFinished && <button className="ButtonModal GreenButton" onClick={() => handleFinishExecution()}
+                                        style={{marginLeft: "50px", width: "150px"}}>Завершить
+                </button>}
+            </div>}
+            {pageType === 'requested' && type === 'ORDER' && executor?.id === userId &&
+                <div className="TitleModal" style={{width: "400px"}}>
+                    Поздравляем! Вы назначены исполнителем!
+                </div>}
         </Modal>
     </div>;
 };

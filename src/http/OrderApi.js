@@ -126,6 +126,35 @@ export const declineAd = async (adId) => {
         Authorization: `Bearer ${token}`
     };
 
-    const { data } = await $host.delete('api/moderators/delete/' + adId, {}, { headers });
+    const { data } = await $host.delete('api/moderators/delete/' + adId,  { headers });
+    return data;
+};
+
+export const setExecutor = async (adId, executorId) => {
+    const token = localStorage.getItem("token")
+
+    const config = {
+        params:
+            {
+                adId: adId,
+                executorId: executorId
+            }
+        ,
+        headers:
+            {Authorization: `Bearer ${token}`}
+    };
+    const { data } = await $host.put('api/ads/set-executor', null, config);
+    return data;
+};
+
+export const finishExecution = async (adId) => {
+    const token = localStorage.getItem("token")
+
+    const config = {
+        headers:
+            {Authorization: `Bearer ${token}`}
+    };
+
+    const { data } = await $host.put('api/ads/finish/' + adId, null, config);
     return data;
 };
