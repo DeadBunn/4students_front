@@ -129,13 +129,13 @@ const Item = ({orderItem, pageType}) => {
                     Откликнуться
                 </button>
             }
-            {pageType === 'to_check' && userRole !== 'USER' && !isModerated &&
+            {pageType === 'to_check' && !isModerated &&
                 <button className="ButtonModal GreenButton" onClick={() => handleApproveRequest(id)}
                         style={{marginRight: '20px'}}>
                     Одобрить
                 </button>
             }
-            {pageType === 'to_check' && userRole !== 'USER' && !isModerated &&
+            {pageType === 'to_check' && !isModerated &&
                 <button className="ButtonModal RedButton" onClick={() => handleDeclineRequest(id)}>
                     Отклонить
                 </button>}

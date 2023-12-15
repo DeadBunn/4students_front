@@ -50,7 +50,7 @@ const Main = observer(() => {
     };
 
     useEffect(() => {
-    }, [order.devices])
+    }, [order.devices, userRole, user])
 
     useEffect(() => {
         handleSearch()
@@ -103,7 +103,7 @@ const Main = observer(() => {
                         <option value="all">Все объявления</option>
                         <option value="mine">Мои объявления</option>
                         <option value="requested">Отклики</option>
-                        {userRole !== 'USER' && <option value="to_check">Непроверенные</option>}
+                        {user.role !== 'USER' && <option value="to_check">Непроверенные</option>}
                     </select>
                 </form>
             </div>
