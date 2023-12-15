@@ -35,10 +35,14 @@ const NavigationBar = () => {
                 const updatedDevices = order.devices.add(result)
                 order.setDevices(updatedDevices)
             }
-            catch(error){
-                const errorMessage = error.response?.data || 'Ошибка при создании объявления';
-                toast.error(errorMessage, { position: toast.POSITION.TOP_LEFT });
-            }
+            catch (error) {
+                if (error.response) {
+                    const errorMessage = error.response?.data || 'Ошибка при создании объявления';
+                    await toast.error(errorMessage, { position: toast.POSITION.TOP_LEFT });
+                } else {
+                    // Handle non-response errors here, if needed
+                    console.error('Non-response error:', error);
+                }}
     };
 
     const handleExit = async () => {
