@@ -391,3 +391,18 @@ padding:10px;
      background: none;
      padding-left:500px
  }
+
+ .HeaderContainer {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+ }
+
+ .ProfileButtons {
+     display: flex;
+ }
+
+ .BalanceContainer {
+     display: flex;
+     align-items: center;
+ }

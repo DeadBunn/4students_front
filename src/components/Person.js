@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Icon from "../images/profile.png"
 import Star from "../images/image.png"
 import {finishExecution, setExecutor} from "../http/OrderApi";
@@ -10,10 +10,14 @@ const Person = ({user, order, isExecutor=false}) => {
         try {
             const result = await setExecutor(order.id, userId)
             toast.success('Вы успешно назначили исполнителя', {position: toast.POSITION.TOP_LEFT});
+            order.executor = user
         } catch (error) {
             toast.error(error.response?.data || 'Произошла ошибка во время назначения исполнителя', {position: toast.POSITION.TOP_LEFT});
         }
     }
+
+    useEffect(() => {
+    }, [order.executor])
 
     return (
         <div style={{display: "flex", alignItems: "center", margin: "10px"}}>

@@ -62,13 +62,17 @@ const Item = ({orderItem, pageType}) => {
     const handleFinishExecution = async () => {
         try {
             await finishExecution(id);
-            toast.success('Объявление успешно завершено', {position: toast.POSITION.TOP_LEFT}); 
+            toast.success('Объявление успешно завершено', {position: toast.POSITION.TOP_LEFT});
+            orderItem.isFinshed = true
         } catch (error) {
             const errorMessage = error.response?.data || 'Ошибка при завершении объявления';
             toast.error(errorMessage, {position: toast.POSITION.TOP_LEFT});
         }
         setModalActive(false);
     };
+
+    useEffect(() => {
+    }, [orderItem.isFinshed])
 
     return <div className="itemBox" onClick={() => setModalActive(true)}>
         <div style={{display: "flex", flexWrap: "wrap", height: "42px"}}>
@@ -129,13 +133,13 @@ const Item = ({orderItem, pageType}) => {
                     Откликнуться
                 </button>
             }
-            {pageType === 'to_check' && userRole !== 'USER' && !isModerated &&
+            {pageType === 'to_check' && !isModerated &&
                 <button className="ButtonModal GreenButton" onClick={() => handleApproveRequest(id)}
                         style={{marginRight: '20px'}}>
                     Одобрить
                 </button>
             }
-            {pageType === 'to_check' && userRole !== 'USER' && !isModerated &&
+            {pageType === 'to_check' && !isModerated &&
                 <button className="ButtonModal RedButton" onClick={() => handleDeclineRequest(id)}>
                     Отклонить
                 </button>}
@@ -151,9 +155,12 @@ const Item = ({orderItem, pageType}) => {
                 {!isFinished && <button className="ButtonModal GreenButton" onClick={() => handleFinishExecution()}
                                         style={{marginLeft: "50px", width: "150px"}}>Завершить
                 </button>}
+                {isFinished && <div className="TitleModal" style={{width: "600px"}}>
+                    Объявление закрыто
+                </div>}
             </div>}
-            {pageType === 'requested' && type === 'ORDER' && executor?.id === userId &&
-                <div className="TitleModal" style={{width: "400px"}}>
+            {pageType === 'requested' && type === 'ORDER' && executor?.id === user.id &&
+                <div className="TitleModal" style={{width: "600px"}}>
                     Поздравляем! Вы назначены исполнителем!
                 </div>}
         </Modal>
