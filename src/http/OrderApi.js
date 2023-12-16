@@ -40,13 +40,15 @@ export const requestToAd = async (adId) => {
 };
 // Аналогично
 export const fetchAllOrders = async (filter) => {
-    console.log("Filter Object:", filter);
+    const token = localStorage.getItem("token")
     const config = {
         params:
             {
                 type: filter.type,
                 title: filter.title
-            }
+            },
+        headers:
+            {Authorization: `Bearer ${token}`}
     };
 
     const {data} = await $host.get('api/ads', config);
