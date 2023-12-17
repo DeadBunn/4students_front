@@ -22,10 +22,8 @@ const Auth = () => {
             } else {
                 data = await registration(email, userLogin, password);
             }
-            user.setUser(user)
             user.setIsAuth(true)
             user.setRole(data.role)
-            user.setBalance(data.balance)
             history.push(MAIN_ROUTE)
         } catch (e) {
             alert(e.message)
