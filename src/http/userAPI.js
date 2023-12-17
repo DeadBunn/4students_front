@@ -14,7 +14,7 @@ export const login = async (email, password) => {
     localStorage.setItem('token', data.accessToken)
     localStorage.setItem('userId', data.id)
     localStorage.setItem('role', data.role)
-    return jwt_decode(data.accessToken)
+    return data
 }
 
 export const check = async () => {
@@ -22,5 +22,5 @@ export const check = async () => {
     localStorage.setItem('token', data.token)
     localStorage.setItem('userId', data.id)
     localStorage.setItem('role', data.role)
-    return jwt_decode(data.token)
+    return data
 }

@@ -19,6 +19,7 @@ const NavigationBar = () => {
     const [orderDescription, setOrderDescription] = useState('');
     const [price, setPrice] = useState(0)
     const history = useHistory()
+    const [profileActive,setProfileActive] = useState(false)
 
     const handleAddOrder = async () => {
             try {
@@ -47,6 +48,7 @@ const NavigationBar = () => {
 
     const handleExit = async () => {
         user.setIsAuth(false)
+        setProfileActive(false)
         localStorage.clear()
         history.push(LOGIN_ROUTE)
     }
@@ -108,8 +110,42 @@ const NavigationBar = () => {
                             </button>
                         </div>
                     </Modal>
-                    <button className="ProfileBtn"><img className="ProfileIcon" alt="img" src={ProfileIcon}/></button>
-                    <button className="ProfileBtn" onClick={handleExit}><img className="ProfileIcon" alt="img" src={Exit} style={{ marginLeft: '10px' }}/></button>
+                    <button className="ProfileBtn" onClick={()=>setProfileActive(true)}><img className="ProfileIcon" alt="img" src={ProfileIcon}/></button>
+                    <div className={profileActive ? "modalProfile active" : "modalProfile"} onClick={()=>setProfileActive(false)}>
+                        <div className={profileActive ? "modalContentProfile active" : "modalContentProfile"} onClick={e=>e.stopPropagation()}>
+                            <div>
+                                <div style={{display:"flex",justifyContent:"space-between"}}>
+                                    <div className="nameProfileModal">@{user.login}</div>
+                                    <button style={{}} className="ProfileBtnModal" onClick={()=>setProfileActive(false)}><img className="ProfileIconModal" alt="img" src={ProfileIcon}/></button>
+                                </div>
+                                <div className="emailProfileModal">
+                                    Почта:
+                                </div>
+                                <div className="emailModal">
+                                    {user.email}
+                                </div>
+                                <div className="emailProfileModal" style={{paddingTop:"10px",display:"flex"}}>
+                                    Баланс:
+                                    <div className="balanceProfileModal">
+                                        {user.balance} <img alt="icon" src={Coin} style={{height:"23px",}}></img>
+                                    </div>
+                                </div>
+                                <div style={{paddingLeft:"10px",paddingTop:"10px",display:"flex",padding:"10px"}}>
+
+                                    <button className="balanceBtnModal" >Пополнить</button>
+                                    <input className="balanceInputModal" ></input>
+                                </div>
+                                <div style={{paddingLeft:"10px",paddingTop:"10px",display:"flex",padding:"10px"}}>
+
+                                    <button className="balanceBtnModal" >Вывести</button>
+                                    <input className="balanceInputModal" ></input>
+                                </div>
+                                <div style={{padding:"0 10px", width:"auto"}}>
+                                    <button className="logoutBtnProfileModal" onClick={handleExit} >Выйти</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             }

@@ -110,3 +110,135 @@
     width:100px;
 
 }
+
+.modalProfile{
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0,0,0,0.4);
+    position:fixed;
+    top:0;
+    left:10px;
+    display:flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    opacity: 0;
+    pointer-events: none;
+    transition:0.5s;
+    padding-top:10px;
+
+    margin-left: -100px;
+}
+.modalProfile.active{
+
+    pointer-events: all;
+    opacity:1;
+}
+
+.modalContentProfile{
+
+    border-radius:15px;
+    background-color: white;
+    height: 350px;
+    width: 330px;
+    transform: scale(0.5);
+    transition:0.4s all;
+}
+
+.modalContentProfile.active{
+    transform: scale(1);
+}
+
+.ProfileBtnModal{
+    height: 45px;
+    width: 45px;
+    border:none;
+    background: none;
+    cursor:pointer;
+    margin:10px
+}
+
+.ProfileIconModal{
+    height: 45px;
+    width: 45px;
+}
+
+.nameProfileModal{
+    color: #3b6064;
+    font-family: "Roboto Mono-Bold", Helvetica;
+    font-size: 27px;
+    font-weight: 700;
+    padding-left:10px;
+    padding-top: 20px;
+}
+
+.emailProfileModal{
+    color: #3b6064e6;
+    font-family: "Roboto-SemiBold", Helvetica;
+    font-size: 24px;
+    font-weight: 600;
+    padding-left: 10px;
+}
+
+.emailModal{
+    color: #ce4257cc;
+    font-family: "Roboto-Bold", Helvetica;
+    font-size: 22px;
+    font-weight: 700;
+    padding-left: 10px;
+}
+
+.balanceProfileModal{
+    background-color: #f5f5f5;
+    border: 3px solid;
+    border-color: #55828b;
+    border-radius: 15px;
+    height: 25px;
+    width: 99px;
+    margin-left:10px;
+    padding-left: 5px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.balanceBtnModal{
+    background-color: #55828b;
+    border-radius: 15px;
+    box-shadow: 5px 5px 0px #00000040;
+    height: 35px;
+    color: #f5f5f5;
+    font-family: "Roboto-Bold", Helvetica;
+    font-size: 20px;
+    font-weight: 700;
+    width: auto;
+    padding:0 10px;
+    cursor:pointer;
+
+}
+
+.balanceInputModal{
+    background-color: #f5f5f5;
+    border: 3px solid;
+    border-color: #55828b;
+    border-radius: 15px;
+    color: #3b6064;
+    font-family: "Roboto-Bold", Helvetica;
+    font-size: 24px;
+    font-weight: 700;
+    width: 100px;
+    margin-left: 10px;
+    padding-left:5px;
+}
+
+.logoutBtnProfileModal{
+    background-color: #55828b;
+    border-radius: 15px;
+    box-shadow: 5px 5px 0px #00000040;
+    height: 51px;
+    color: #f5f5f5;
+    font-family: "Roboto Mono-Bold", Helvetica;
+    font-size: 24px;
+    font-weight: 700;
+    width: 100%;
+    cursor:pointer;
+
+}

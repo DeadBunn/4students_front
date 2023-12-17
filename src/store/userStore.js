@@ -5,6 +5,7 @@ export default class UserStore {
         this._isAuth = localStorage.getItem('token') !== null
         this._role = localStorage.getItem('role')
         this._user = {}
+        this._balance = 0
         makeAutoObservable(this)
     }
 
@@ -23,6 +24,18 @@ export default class UserStore {
         this._balance = balance
     }
 
+    setLogin(login){
+        this._login = login
+    }
+
+    setEmail(email){
+        this._email = email
+    }
+
+    get email(){
+        return this._email
+    }
+
     get balance(){
         return this._balance
     }
@@ -36,5 +49,9 @@ export default class UserStore {
 
     get role(){
         return this._role
+    }
+
+    get login(){
+        return this._login
     }
 }
